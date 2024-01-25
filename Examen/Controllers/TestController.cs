@@ -23,25 +23,25 @@ namespace backend.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateTest([FromBody] TestModel test)
+        public async Task<IActionResult> CreateTest([FromBody] Autor test)
         {
             await _testService.Create(test);
             return Ok();
         }
 
         [HttpPatch("update")]
-        public async Task<IActionResult> UpdateTest([FromBody] TestModel test)
+        public async Task<IActionResult> UpdateTest([FromBody] Autor test)
         {
             await _testService.Update(test);
             return Ok();
         }
-        [HttpPost("update_2")]
+        /*[HttpPost("update_2")]
         public async Task<IActionResult> UpdateTestBy10Percent()
         {
             await _testService.UpdatePricesBy10Percent();
 
             return Ok();
-        }
+        } */
 
         [HttpDelete("delete/${id}")]
         public IActionResult DeleteTest(Guid id)

@@ -4,7 +4,7 @@ using Examen.Data.Models;
 
 namespace Repositories.TestRepository;
 
-public interface ITestRepository : IGenericRepository<TestModel>
+public interface ITestRepository : IGenericRepository<Autor>
 {
 
 }

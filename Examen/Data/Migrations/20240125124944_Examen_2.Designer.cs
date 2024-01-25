@@ -4,6 +4,7 @@ using Examen.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Examen.Migrations
 {
     [DbContext(typeof(ExamenContext))]
-    partial class ExamenContextModelSnapshot : ModelSnapshot
+    [Migration("20240125124944_Examen_2")]
+    partial class Examen2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,13 +25,25 @@ namespace Examen.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AutorCarte", b =>
+                {
+                    b.Property<Guid>("AutoriId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CartiId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AutoriId", "CartiId");
+
+                    b.HasIndex("CartiId");
+
+                    b.ToTable("CartiAutori", (string)null);
+                });
+
             modelBuilder.Entity("Examen.Data.Models.Autor", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("EdituraCarteId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("IdEditura")
@@ -47,7 +62,7 @@ namespace Examen.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EdituraCarteId");
+                    b.HasIndex("IdEditura");
 
                     b.ToTable("Autori");
                 });
@@ -92,59 +107,30 @@ namespace Examen.Migrations
                     b.ToTable("Edituri");
                 });
 
-            modelBuilder.Entity("Examen.Data.Models.ModelsRelation", b =>
+            modelBuilder.Entity("AutorCarte", b =>
                 {
-                    b.Property<Guid>("AutorId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Examen.Data.Models.Autor", null)
+                        .WithMany()
+                        .HasForeignKey("AutoriId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid>("CarteId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AutorId", "CarteId");
-
-                    b.HasIndex("CarteId");
-
-                    b.ToTable("ModelsRelation");
+                    b.HasOne("Examen.Data.Models.Carte", null)
+                        .WithMany()
+                        .HasForeignKey("CartiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Examen.Data.Models.Autor", b =>
                 {
                     b.HasOne("Examen.Data.Models.Editura", "EdituraCarte")
                         .WithMany("Autori")
-                        .HasForeignKey("EdituraCarteId")
+                        .HasForeignKey("IdEditura")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("EdituraCarte");
-                });
-
-            modelBuilder.Entity("Examen.Data.Models.ModelsRelation", b =>
-                {
-                    b.HasOne("Examen.Data.Models.Autor", "Autor")
-                        .WithMany("ModelsRelations")
-                        .HasForeignKey("AutorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Examen.Data.Models.Carte", "Carte")
-                        .WithMany("ModelsRelations")
-                        .HasForeignKey("CarteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Autor");
-
-                    b.Navigation("Carte");
-                });
-
-            modelBuilder.Entity("Examen.Data.Models.Autor", b =>
-                {
-                    b.Navigation("ModelsRelations");
-                });
-
-            modelBuilder.Entity("Examen.Data.Models.Carte", b =>
-                {
-                    b.Navigation("ModelsRelations");
                 });
 
             modelBuilder.Entity("Examen.Data.Models.Editura", b =>

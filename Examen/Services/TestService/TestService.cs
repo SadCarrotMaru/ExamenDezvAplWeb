@@ -17,13 +17,12 @@ public class TestService : ITestService
     }
     
 
-    public async Task<List<TestModel>> GetAll()
+    public async Task<List<Autor>> GetAll()
     {
-
         return await _testRepository.GetAllAsync();
     }
 
-    public async Task Create(TestModel test)
+    public async Task Create(Autor test)
     {
         await _testRepository.CreateAsync(test);
         await _testRepository.SaveAsync();
@@ -35,26 +34,27 @@ public class TestService : ITestService
         _testRepository.SaveAsync();
     }
 
-    public async Task Update(TestModel test)
+    public async Task Update(Autor test)
     {
         _testRepository.Update(test);
         await _testRepository.SaveAsync();
     }
 
+    /*
     public async Task UpdatePricesBy10Percent()
     {
         var allTests = await _testRepository.GetAllAsync();
         var sum = 0;
 
-        /*
+        
         foreach (var test in allTests)
         {
             test.Price += 10;
             sum += test.Price;
         }
-        */
+        
         //update all prices by 10%
-        foreach (var ent in _context.TestModels.ToList())
+        foreach (var ent in _context.ToList())
         {
             ent.Price+=10;
             _context.SaveChanges();
@@ -66,4 +66,5 @@ public class TestService : ITestService
         await _testRepository.SaveAsync();
         
     }
+        */
 }

@@ -5,7 +5,7 @@ using Examen.Data.Models;
 
 namespace Repositories.TestRepository;
 
-public class TestRepository : GenericRepository<TestModel>, ITestRepository
+public class TestRepository : GenericRepository<Autor>, ITestRepository
 {
     public TestRepository(ExamenContext dbContext) : base(dbContext) { }
 }
